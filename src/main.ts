@@ -7,12 +7,20 @@ import {
   installExtension,
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer";
+import Store from "electron-store";
 
 const inDevelopment = process.env.NODE_ENV === "development";
 const preload = path.join(__dirname, "preload.js");
 
 let mainWindow: BrowserWindow;
 let settingsWindow: BrowserWindow | null = null;
+
+// Initialize store
+const store = new Store({
+  defaults: {
+    language: "python",
+  },
+});
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -154,4 +162,13 @@ ipcMain.on("maximize-window", () => {
 
 ipcMain.on("set-ignore-mouse-events", (_event, ignore, options) => {
   mainWindow.setIgnoreMouseEvents(ignore, options);
+});
+
+// Add this to your existing IPC handlers
+ipcMain.handle("get-stored-language", () => {
+  return store.get("language");
+});
+
+ipcMain.on("set-language", (_event, language: string) => {
+  store.set("language", language);
 });

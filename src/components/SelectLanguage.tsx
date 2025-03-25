@@ -30,8 +30,22 @@ const programmingLanguages = [
 ];
 
 export function SelectLanguage() {
+  const [value, setValue] = React.useState<string>("python");
+
+  React.useEffect(() => {
+    // Load stored language on mount
+    window.electron.getStoredLanguage().then((storedLanguage: string) => {
+      setValue(storedLanguage);
+    });
+  }, []);
+
+  const handleValueChange = (newValue: string) => {
+    setValue(newValue);
+    window.electron.setLanguage(newValue);
+  };
+
   return (
-    <Select defaultValue="python">
+    <Select value={value} onValueChange={handleValueChange}>
       <SelectTrigger className="h-8 w-[120px] border-gray-200 bg-transparent text-sm focus:ring-gray-400 dark:border-gray-700">
         <SelectValue />
       </SelectTrigger>

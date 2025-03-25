@@ -11,4 +11,6 @@ contextBridge.exposeInMainWorld("electron", {
   maximizeWindow: () => ipcRenderer.send("maximize-window"),
   setIgnoreMouseEvents: (ignore: boolean, options?: { forward: boolean }) =>
     ipcRenderer.send("set-ignore-mouse-events", ignore, options),
+  getStoredLanguage: () => ipcRenderer.invoke('get-stored-language'),
+  setLanguage: (language: string) => ipcRenderer.send('set-language', language),
 });
