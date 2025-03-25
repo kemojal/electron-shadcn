@@ -181,9 +181,10 @@
 }
 
 @layer base {
-  /* body {
-    @apply overflow-hidden;
-  } */
+  body {
+    /* @apply overflow-hidden; */
+    app-region: drag;
+  }
   /* .draglayer {
     @apply bg-background;
     -webkit-app-region: drag;

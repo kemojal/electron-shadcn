@@ -5,7 +5,7 @@ import { router } from "./routes/router";
 
 export default function App() {
   return (
-    <div className="h-screen w-full bg-white text-black">
+    <div className="w-full h-screen text-black">
       <RouterProvider router={router} />
     </div>
   );

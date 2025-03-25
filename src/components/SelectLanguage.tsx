@@ -32,7 +32,7 @@ const programmingLanguages = [
 export function SelectLanguage() {
   return (
     <Select defaultValue="python">
-      <SelectTrigger className="h-8 w-[100px] border-gray-200 bg-transparent text-sm focus:ring-gray-400 dark:border-gray-700">
+      <SelectTrigger className="h-8 w-[120px] border-gray-200 bg-transparent text-sm focus:ring-gray-400 dark:border-gray-700">
         <SelectValue />
       </SelectTrigger>
       <SelectContent className="max-h-[300px] border-gray-200 bg-white p-1 dark:border-gray-700 dark:bg-gray-800">
