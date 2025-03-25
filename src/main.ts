@@ -94,10 +94,8 @@ function createWindow() {
     titleBarStyle: "default",
   });
 
-  // Make window click-through except for non-transparent regions
   mainWindow.setIgnoreMouseEvents(true, { forward: true });
 
-  // mainWindow.webContents.openDevTools();
   // Prevents window from appearing in screen sharing
   mainWindow.setContentProtection(true);
 
@@ -107,8 +105,6 @@ function createWindow() {
     mainWindow.focus();
   });
 
-  // Prevents window from appearing in screen sharing
-  mainWindow.setContentProtection(true);
   registerListeners(mainWindow);
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {

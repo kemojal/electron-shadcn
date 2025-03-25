@@ -82,6 +82,7 @@
     "clsx": "^2.1.1",
     "electron-squirrel-startup": "^1.0.1",
     "electron-store": "^10.0.1",
+    "framer-motion": "^12.6.0",
     "i18next": "^24.2.3",
     "lucide-react": "^0.483.0",
     "react": "^19.0.0",
