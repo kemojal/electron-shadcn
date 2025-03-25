@@ -1,13 +1,14 @@
-import { createMemoryHistory, createRouter } from "@tanstack/react-router";
-import { rootTree } from "./routes";
+import { createHashRouter } from "react-router-dom";
+import HomePage from "../pages/HomePage";
+import { SettingsPage } from "../pages/SettingsPage";
 
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router;
-  }
-}
-
-const history = createMemoryHistory({
-  initialEntries: ["/"],
-});
-export const router = createRouter({ routeTree: rootTree, history: history });
+export const router = createHashRouter([
+  {
+    path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "/settings",
+    element: <SettingsPage />,
+  },
+]);

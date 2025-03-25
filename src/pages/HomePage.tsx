@@ -1,25 +1,14 @@
 import React, { useState } from "react";
-import { SettingsButton } from "../components/ui/SettingsButton";
-import { SettingsModal } from "../components/SettingsModal";
+import { SettingsDropdown } from "../components/SettingsDropdown";
 
 export default function HomePage() {
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("Python");
 
   return (
-    <div className="bg-background flex h-full w-full items-center justify-between px-2">
-      <div className="flex items-center gap-2">
-        <SettingsButton onClick={() => setIsSettingsOpen(true)} />
+    <div className="flex justify-center items-center p-4 w-full h-screen bg-white">
+      <div className="flex flex-col gap-4 items-center p-8 rounded-lg border border-gray-300 shadow-lg">
+        <SettingsDropdown />
       </div>
-
-      <div className="text-foreground">Take Screenshot</div>
-
-      <SettingsModal
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        selectedLanguage={selectedLanguage}
-        onLanguageChange={setSelectedLanguage}
-      />
     </div>
   );
 }

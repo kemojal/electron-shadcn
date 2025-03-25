@@ -1,10 +1,6 @@
+import React from "react";
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "./ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import {
   Select,
   SelectContent,
@@ -38,22 +34,19 @@ export function SettingsModal({
 }: SettingsModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-gray-800 text-white border-gray-700">
+      <DialogContent className="fixed border-gray-700 bg-gray-800 text-white">
         <DialogHeader>
           <DialogTitle>Settings</DialogTitle>
         </DialogHeader>
-        
+
         <div className="space-y-6 py-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">Language</label>
-            <Select
-              value={selectedLanguage}
-              onValueChange={onLanguageChange}
-            >
+            <Select value={selectedLanguage} onValueChange={onLanguageChange}>
               <SelectTrigger className="w-full bg-gray-700">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-gray-800 border-gray-700">
+              <SelectContent className="border-gray-700 bg-gray-800">
                 {programmingLanguages.map((lang) => (
                   <SelectItem
                     key={lang}
@@ -72,11 +65,11 @@ export function SettingsModal({
             <div className="text-sm text-gray-400">
               <div className="flex justify-between py-1">
                 <span>Toggle Window</span>
-                <kbd className="px-2 py-0.5 bg-gray-700 rounded">⌘B</kbd>
+                <kbd className="rounded bg-gray-700 px-2 py-0.5">⌘B</kbd>
               </div>
               <div className="flex justify-between py-1">
                 <span>Take Screenshot</span>
-                <kbd className="px-2 py-0.5 bg-gray-700 rounded">⌘H</kbd>
+                <kbd className="rounded bg-gray-700 px-2 py-0.5">⌘H</kbd>
               </div>
             </div>
           </div>
@@ -84,4 +77,4 @@ export function SettingsModal({
       </DialogContent>
     </Dialog>
   );
-} 
+}

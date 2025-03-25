@@ -181,9 +181,9 @@
 }
 
 @layer base {
-  body {
+  /* body {
     @apply overflow-hidden;
-  }
+  } */
   .draglayer {
     @apply bg-background;
     -webkit-app-region: drag;
@@ -202,8 +202,35 @@
   }
 }
 
-body {
-  background-color: transparent;
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: white;
+  color: black;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+
+#portal-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+#portal-root > * {
+  pointer-events: auto;
 }
 
 [data-theme="dark"] {
