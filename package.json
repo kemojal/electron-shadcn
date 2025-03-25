@@ -91,5 +91,16 @@
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.2"
+  },
+  "build": {
+    "beforeBuild": "npm run build:renderer",
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/**/*.node"
+    ]
   }
 }
