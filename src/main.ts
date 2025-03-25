@@ -1,4 +1,10 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  systemPreferences,
+  dialog,
+} from "electron";
 import registerListeners from "./helpers/ipc/listeners-register";
 // "electron-squirrel-startup" seems broken when packaging with vite
 //import started from "electron-squirrel-startup";
@@ -19,8 +25,53 @@ let settingsWindow: BrowserWindow | null = null;
 const store = new Store({
   defaults: {
     language: "python",
+    screenPermissionRequested: false,
   },
 });
+
+// Add this after your store initialization
+const PERMISSIONS = {
+  SCREEN_CAPTURE: "screen",
+  MICROPHONE: "microphone",
+} as const;
+
+async function requestPermissions() {
+  // Check if we've already requested permissions
+  if (store.get("screenPermissionRequested")) {
+    return;
+  }
+
+  // Screen Capture Permission (macOS)
+  if (process.platform === "darwin") {
+    const hasScreenAccess = systemPreferences.getMediaAccessStatus("screen");
+    if (hasScreenAccess !== "granted") {
+      try {
+        await systemPreferences.askForMediaAccess("camera");
+        dialog
+          .showMessageBox(mainWindow, {
+            type: "info",
+            message:
+              "Please enable screen recording permission in System Preferences > Security & Privacy > Privacy > Screen Recording",
+            buttons: ["Open System Preferences", "Cancel"],
+          })
+          .then(({ response }) => {
+            if (response === 0) {
+              require("child_process").exec(
+                "open x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture",
+              );
+            }
+            // Mark that we've requested permission
+            store.set("screenPermissionRequested", true);
+          });
+      } catch (error) {
+        console.error("Failed to request screen capture permission:", error);
+      }
+    } else {
+      // Permission is granted, mark as requested
+      store.set("screenPermissionRequested", true);
+    }
+  }
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -50,7 +101,8 @@ function createWindow() {
   // Prevents window from appearing in screen sharing
   mainWindow.setContentProtection(true);
 
-  mainWindow.once("ready-to-show", () => {
+  mainWindow.once("ready-to-show", async () => {
+    await requestPermissions();
     mainWindow.show();
     mainWindow.focus();
   });
@@ -171,4 +223,22 @@ ipcMain.handle("get-stored-language", () => {
 
 ipcMain.on("set-language", (_event, language: string) => {
   store.set("language", language);
+});
+
+// Add these IPC handlers
+ipcMain.handle("check-permissions", async () => {
+  const hasRequested = store.get("screenPermissionRequested");
+  const permissions = {
+    screen:
+      process.platform === "darwin"
+        ? systemPreferences.getMediaAccessStatus("screen") === "granted"
+        : true,
+    hasRequested,
+  };
+  return permissions;
+});
+
+ipcMain.handle("request-permissions", async () => {
+  await requestPermissions();
+  return true;
 });

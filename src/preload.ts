@@ -13,4 +13,6 @@ contextBridge.exposeInMainWorld("electron", {
     ipcRenderer.send("set-ignore-mouse-events", ignore, options),
   getStoredLanguage: () => ipcRenderer.invoke('get-stored-language'),
   setLanguage: (language: string) => ipcRenderer.send('set-language', language),
+  checkPermissions: () => ipcRenderer.invoke('check-permissions'),
+  requestPermissions: () => ipcRenderer.invoke('request-permissions'),
 });
