@@ -15,7 +15,11 @@ export default function App() {
     updateAppLanguage(i18n);
   }, [i18n]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <RouterProvider router={router} />
+    </div>
+  );
 }
 
 const root = createRoot(document.getElementById("app")!);

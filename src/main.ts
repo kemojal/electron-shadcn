@@ -14,7 +14,12 @@ function createWindow() {
   const preload = path.join(__dirname, "preload.js");
   const mainWindow = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 100,
+    transparent: true,
+    frame: false,
+    alwaysOnTop: true,
+    resizable: false,
+
     webPreferences: {
       devTools: inDevelopment,
       contextIsolation: true,
@@ -22,9 +27,12 @@ function createWindow() {
       nodeIntegrationInSubFrames: false,
 
       preload: preload,
+      acceptFirstMouse: true,
     },
     titleBarStyle: "hidden",
   });
+  // Prevents window from appearing in screen sharing
+  mainWindow.setContentProtection(true);
   registerListeners(mainWindow);
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
