@@ -6,4 +6,7 @@ exposeContexts();
 contextBridge.exposeInMainWorld("electron", {
   openSettings: () => ipcRenderer.send("open-settings"),
   closeSettings: () => ipcRenderer.send("close-settings"),
+  closeWindow: () => ipcRenderer.send("close-window"),
+  minimizeWindow: () => ipcRenderer.send("minimize-window"),
+  maximizeWindow: () => ipcRenderer.send("maximize-window"),
 });

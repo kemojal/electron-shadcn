@@ -184,13 +184,19 @@
   body {
     /* @apply overflow-hidden; */
     app-region: drag;
+    -webkit-app-region: drag;
   }
   /* .draglayer {
     @apply bg-background;
     -webkit-app-region: drag;
   } */
-  button {
-    @apply cursor-pointer;
+  button,
+  input,
+  select,
+  [role="button"],
+  [role="menuitem"],
+  a {
+    -webkit-app-region: no-drag !important;
   }
 }
 
@@ -246,4 +252,9 @@ html,
 /* Make sure Tailwind bg-background is transparent */
 .bg-background {
   background-color: transparent !important;
+}
+
+/* If you have specific containers that should not be draggable */
+.no-drag {
+  -webkit-app-region: no-drag !important;
 }

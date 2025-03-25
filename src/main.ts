@@ -131,3 +131,19 @@ ipcMain.on("close-settings", () => {
     settingsWindow.close();
   }
 });
+
+ipcMain.on("close-window", () => {
+  mainWindow.close();
+});
+
+ipcMain.on("minimize-window", () => {
+  mainWindow.minimize();
+});
+
+ipcMain.on("maximize-window", () => {
+  if (mainWindow.isMaximized()) {
+    mainWindow.unmaximize();
+  } else {
+    mainWindow.maximize();
+  }
+});
