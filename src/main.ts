@@ -17,12 +17,12 @@ let settingsWindow: BrowserWindow | null = null;
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
-    height: 500,
-    transparent: false,
+    height: 900,
+    transparent: true,
     frame: true,
     alwaysOnTop: true,
     resizable: true,
-    backgroundColor: "transparent",
+    backgroundColor: "#00000000",
     hasShadow: false,
     webPreferences: {
       devTools: true,
@@ -35,7 +35,7 @@ function createWindow() {
     titleBarStyle: "default",
   });
 
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
   // Prevents window from appearing in screen sharing
   mainWindow.setContentProtection(true);
 
