@@ -35,6 +35,9 @@ function createWindow() {
     titleBarStyle: "default",
   });
 
+  // Make window click-through except for non-transparent regions
+  mainWindow.setIgnoreMouseEvents(true, { forward: true });
+
   // mainWindow.webContents.openDevTools();
   // Prevents window from appearing in screen sharing
   mainWindow.setContentProtection(true);
@@ -71,6 +74,7 @@ function createSettingsWindow() {
     show: false,
     frame: false,
     transparent: true,
+    alwaysOnTop: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: true,
@@ -146,4 +150,8 @@ ipcMain.on("maximize-window", () => {
   } else {
     mainWindow.maximize();
   }
+});
+
+ipcMain.on("set-ignore-mouse-events", (_event, ignore, options) => {
+  mainWindow.setIgnoreMouseEvents(ignore, options);
 });

@@ -53,7 +53,7 @@ const menuItems = [
         icon: IconLanguage,
         label: "Language",
         custom: (
-          <div className="flex gap-2 justify-between items-center w-full">
+          <div className="flex w-full items-center justify-between gap-2">
             <div>Language</div>
             <SelectLanguage />
           </div>
@@ -69,10 +69,10 @@ const menuItems = [
         label: "Credit remaining",
         disabled: true,
         custom: (
-          <div className="space-y-1 w-full">
-            <div className="flex justify-between items-center w-full">
-              <div className="flex gap-2 items-center">
-                <IconCreditCard className="w-4 h-4" />
+          <div className="w-full space-y-1">
+            <div className="flex w-full items-center justify-between">
+              <div className="flex items-center gap-2">
+                <IconCreditCard className="h-4 w-4" />
                 Credit remaining
               </div>
               <div>50/50</div>
@@ -100,12 +100,16 @@ const menuItems = [
   },
 ];
 
-export function SettingsDropdown() {
+interface SettingsDropdownProps {
+  onOpenChange?: (open: boolean) => void;
+}
+
+export function SettingsDropdown({ onOpenChange }: SettingsDropdownProps) {
   const renderMenuItem = (item: any) => {
     if (item.type === "label") {
       return (
         <DropdownMenuLabel className="flex items-center gap-2 px-2 py-1.5 text-sm font-semibold text-gray-900 dark:text-gray-100">
-          <item.icon className="w-4 h-4" />
+          <item.icon className="h-4 w-4" />
           {item.label}
         </DropdownMenuLabel>
       );
@@ -121,8 +125,8 @@ export function SettingsDropdown() {
               className={`px-2 py-1.5 text-sm ${groupItem.className || ""}`}
             >
               {groupItem.custom || (
-                <div className="flex gap-2 items-center">
-                  <groupItem.icon className="w-4 h-4" />
+                <div className="flex items-center gap-2">
+                  <groupItem.icon className="h-4 w-4" />
                   <div>
                     <div>{groupItem.label}</div>
                     {groupItem.description && (
@@ -149,8 +153,8 @@ export function SettingsDropdown() {
         disabled={item.disabled}
         className={`px-2 py-1.5 text-sm ${item.className || ""}`}
       >
-        <div className="flex gap-2 items-center">
-          <item.icon className="w-4 h-4" />
+        <div className="flex items-center gap-2">
+          <item.icon className="h-4 w-4" />
           {item.label}
         </div>
         {item.shortcut && (
@@ -161,11 +165,11 @@ export function SettingsDropdown() {
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={onOpenChange}>
       <DropdownMenuTrigger className="flex items-center gap-2 rounded-md border-[1px] border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">
-        <IconSettings className="w-4 h-4" />
+        <IconSettings className="h-4 w-4" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="p-2 w-72 text-sm">
+      <DropdownMenuContent className="w-72 p-2 text-sm">
         {menuItems.map((item, index) => (
           <React.Fragment key={index}>
             {renderMenuItem(item)}

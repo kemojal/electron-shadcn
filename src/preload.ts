@@ -9,4 +9,6 @@ contextBridge.exposeInMainWorld("electron", {
   closeWindow: () => ipcRenderer.send("close-window"),
   minimizeWindow: () => ipcRenderer.send("minimize-window"),
   maximizeWindow: () => ipcRenderer.send("maximize-window"),
+  setIgnoreMouseEvents: (ignore: boolean, options?: { forward: boolean }) =>
+    ipcRenderer.send("set-ignore-mouse-events", ignore, options),
 });
