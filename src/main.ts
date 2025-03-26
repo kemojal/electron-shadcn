@@ -1,4 +1,10 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  systemPreferences,
+  desktopCapturer,
+} from "electron";
 import registerListeners from "./helpers/ipc/listeners-register";
 // "electron-squirrel-startup" seems broken when packaging with vite
 //import started from "electron-squirrel-startup";
@@ -30,15 +36,15 @@ function createWindow() {
     frame: true,
     alwaysOnTop: true,
     resizable: true,
-    backgroundColor: "#00000000",
+    backgroundColor: "#BDBDBDFF",
     hasShadow: false,
+    acceptFirstMouse: true,
     webPreferences: {
       devTools: true,
       contextIsolation: true,
       nodeIntegration: true,
       nodeIntegrationInSubFrames: false,
       preload: preload,
-      acceptFirstMouse: true,
     },
     titleBarStyle: "default",
   });
@@ -106,7 +112,28 @@ function createSettingsWindow() {
   settingsWindow.on("closed", () => {
     settingsWindow = null;
   });
+
+  checkPermissions(); // Ensure macOS permissions are granted
 }
+
+function checkPermissions() {
+  if (process.platform === "darwin") {
+    const permission = systemPreferences.getMediaAccessStatus("screen");
+    if (permission !== "granted") {
+      systemPreferences.askForMediaAccess("screen").then((granted: boolean) => {
+        if (!granted) {
+          console.error("Screen recording permission denied");
+        }
+      });
+    }
+  }
+}
+
+ipcMain.handle("capture-screen", async () => {
+  const sources = await desktopCapturer.getSources({ types: ["screen"] });
+  const screen = sources[0];
+  return screen.thumbnail.toDataURL();
+});
 
 async function installExtensions() {
   try {
